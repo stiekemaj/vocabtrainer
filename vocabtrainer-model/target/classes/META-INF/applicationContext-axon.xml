@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:axon="http://www.axonframework.org/schema/core"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.axonframework.org/schema/core http://www.axonframework.org/schema/axon-core.xsd">
+
+    <axon:command-bus id="commandBus" transaction-manager="transactionManager"/>
+
+    <!--<axon:disruptor-command-bus id="commandBus" event-store="eventStore" event-bus="eventBus">-->
+        <!--<axon:repositories>-->
+            <!--<axon:repository id="toDoRepository"/>-->
+        <!--</axon:repositories>-->
+    <!--</axon:disruptor-command-bus>-->
+
+    <axon:event-bus id="eventBus"/>
+
+    <axon:event-sourcing-repository id="toDoRepository"
+                                    aggregate-type="eu.stiekema.jeroen.vocabtrainer.model.ToDoItem"/>
+
+    <axon:aggregate-command-handler id="toDoItemHandler"
+                                    aggregate-type="eu.stiekema.jeroen.vocabtrainer.model.ToDoItem"
+                                    repository="toDoRepository"
+                                    command-bus="commandBus"/>
+
+    <!--<axon:filesystem-event-store id="eventStore" base-dir="events"/>-->
+
+    <bean id="entityManagerProvider" class="eu.stiekema.jeroen.vocabtrainer.MyEntityManagerProvider"/>
+
+    <axon:jpa-event-store id="eventStore" data-source="dataSource" entity-manager-provider="entityManagerProvider"/>
+
+
+    <bean class="org.axonframework.commandhandling.gateway.CommandGatewayFactoryBean">
+        <property name="commandBus" ref="commandBus"/>
+        <property name="gatewayInterface" value="eu.stiekema.jeroen.vocabtrainer.gateway.CreateToDoItemGateway"/>
+    </bean>
+
+
+
+</beans>
