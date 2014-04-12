@@ -10,7 +10,8 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            classpath:META-INF/applicationContext-model.xml
+            classpath:META-INF/infrastructure-context.xml
+            classpath:META-INF/users-context.xml
             /WEB-INF/applicationContext-web.xml
             /WEB-INF/mvc-dispatcher-servlet.xml
         </param-value>

@@ -1,5 +1,6 @@
 package eu.stiekema.jeroen.vocabtrainer;
 
+import eu.stiekema.jeroen.vocabtrainer.command.AddSubjectCommand;
 import eu.stiekema.jeroen.vocabtrainer.command.CreateToDoItemCommand;
 import eu.stiekema.jeroen.vocabtrainer.gateway.CreateToDoItemGateway;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,4 +20,8 @@ public class VocabTrainerServiceImpl implements VocabTrainerService {
         commandGateway.sendCommand(command);
     }
 
+    @Override
+    public void addSubject(AddSubjectCommand addSubjectCommand) {
+        commandGateway.sendCommand(addSubjectCommand);
+    }
 }

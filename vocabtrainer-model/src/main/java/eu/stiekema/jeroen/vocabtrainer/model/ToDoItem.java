@@ -6,6 +6,7 @@ import org.axonframework.commandhandling.annotation.CommandHandler;
 import org.axonframework.eventhandling.annotation.EventHandler;
 import org.axonframework.eventsourcing.annotation.AbstractAnnotatedAggregateRoot;
 import org.axonframework.eventsourcing.annotation.AggregateIdentifier;
+import org.axonframework.unitofwork.UnitOfWork;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +23,7 @@ public class ToDoItem extends AbstractAnnotatedAggregateRoot {
     }
 
     @CommandHandler
-    public ToDoItem(CreateToDoItemCommand command) {
+    public ToDoItem(CreateToDoItemCommand command, UnitOfWork unitOfWork) {
         apply(new ToDoItemCreatedEvent(command.getTodoId(), command.getDescription()));
     }
 

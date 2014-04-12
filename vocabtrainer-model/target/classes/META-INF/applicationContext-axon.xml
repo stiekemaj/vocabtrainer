@@ -19,9 +19,17 @@
     <axon:event-sourcing-repository id="toDoRepository"
                                     aggregate-type="eu.stiekema.jeroen.vocabtrainer.model.ToDoItem"/>
 
+    <axon:event-sourcing-repository id="subjectRepository"
+                                    aggregate-type="eu.stiekema.jeroen.vocabtrainer.model.Subject"/>
+
     <axon:aggregate-command-handler id="toDoItemHandler"
                                     aggregate-type="eu.stiekema.jeroen.vocabtrainer.model.ToDoItem"
                                     repository="toDoRepository"
+                                    command-bus="commandBus"/>
+
+    <axon:aggregate-command-handler id="subjectHandler"
+                                    aggregate-type="eu.stiekema.jeroen.vocabtrainer.model.Subject"
+                                    repository="subjectRepository"
                                     command-bus="commandBus"/>
 
     <!--<axon:filesystem-event-store id="eventStore" base-dir="events"/>-->
@@ -29,7 +37,6 @@
     <bean id="entityManagerProvider" class="eu.stiekema.jeroen.vocabtrainer.MyEntityManagerProvider"/>
 
     <axon:jpa-event-store id="eventStore" data-source="dataSource" entity-manager-provider="entityManagerProvider"/>
-
 
     <bean class="org.axonframework.commandhandling.gateway.CommandGatewayFactoryBean">
         <property name="commandBus" ref="commandBus"/>
