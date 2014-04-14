@@ -9,55 +9,52 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <name>vocabtrainer - model</name>
-
     <artifactId>vocabtrainer-model</artifactId>
 
     <dependencies>
 
+        <!-- Test dependencies -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
-            <version>${spring.version}</version>
+            <groupId>org.dbunit</groupId>
+            <artifactId>dbunit</artifactId>
+            <version>2.4.9</version>
+            <scope>test</scope>
         </dependency>
-
         <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>eclipselink</artifactId>
-            <version>2.3.2</version>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.2-FINAL</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
+            <scope>test</scope>
         </dependency>
-
         <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>javax.persistence</artifactId>
-            <version>2.0.3</version>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>10.8.2.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derbyclient</artifactId>
+            <version>10.8.2.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derbytools</artifactId>
+            <version>10.8.2.2</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.liquibase</groupId>
-                <artifactId>liquibase-maven-plugin</artifactId>
-                <version>2.0.5</version>
-                <configuration>
-                    <propertyFile>src/main/db/liquibase.properties</propertyFile>
-                    <contexts>${liquibase-contexts}</contexts>
-                    <username>${vocabtrainer-db-username}</username>
-                    <password>${vocabtrainer-db-password}</password>
-                    <url>${vocabtrainer-db-url}</url>
-                    <promptOnNonLocalDatabase>true</promptOnNonLocalDatabase>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.oracle.jdbc</groupId>
-                        <artifactId>jdbc</artifactId>
-                        <version>10.2.0.4</version>
-                        <type>pom</type>
-                    </dependency>
-                </dependencies>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
