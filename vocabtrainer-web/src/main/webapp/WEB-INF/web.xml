@@ -31,7 +31,15 @@
 
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>vocabtrainer-protected</web-resource-name>
+            <web-resource-name>free resources</web-resource-name>
+            <url-pattern>/login</url-pattern>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>protected resources</web-resource-name>
             <url-pattern>/*</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>

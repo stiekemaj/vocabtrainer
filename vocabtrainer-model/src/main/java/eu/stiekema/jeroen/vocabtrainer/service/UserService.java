@@ -10,4 +10,8 @@ import javax.validation.constraints.Min;
 @Local
 public interface UserService {
     User getUserById(@Min(1) Long id);
+
+    User getUserByEmailAddress(String emailAddress);
+
+    void detachUser(User user);
 }

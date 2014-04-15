@@ -6,8 +6,7 @@
     <persistence-unit name="vocabTrainerPU" transaction-type="JTA">
         <jta-data-source>jdbc/vocabtrainerDS</jta-data-source>
         <properties>
-            <!--<property name="hibernate.show_sql" value="true"/>-->
-            <!--<property name="hibernate.format_sql" value="true"/>-->
+            <property name="eclipselink.logging.level" value="FINE"/>
         </properties>
     </persistence-unit>
 </persistence>

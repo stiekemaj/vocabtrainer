@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="0.1-001" author="jeroen.stiekema">
+        <comment>Create tables for user authentication</comment>
+        <createTable tableName="users">
+            <column name="user_id" type="number(20)">
+                <constraints primaryKey="true" primaryKeyName="users_pk"/>
+            </column>
+            <column name="emailaddress" type="varchar2(50)">
+                <constraints unique="true" uniqueConstraintName="users_email_uk" nullable="false"/>
+            </column>
+            <column name="password" type="varchar2(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="firstname" type="varchar2(50)"/>
+            <column name="lastname" type="varchar2(50)"/>
+        </createTable>
+
+        <createTable tableName="user_roles">
+            <column name="emailaddress" type="varchar2(50)"/>
+            <column name="rolename" type="varchar2(20)"/>
+        </createTable>
+
+        <addPrimaryKey tableName="user_roles" columnNames="emailaddress, rolename" constraintName="user_roles_pk"/>
+        <addForeignKeyConstraint baseTableName="user_roles" baseColumnNames="emailaddress"
+                                 constraintName="user_role_email_fk"
+                                 referencedTableName="users"
+                                 referencedColumnNames="emailaddress"/>
+    </changeSet>
+
+    <changeSet id="0.1-002" author="jeroen.stiekema">
+        <comment>add myself as admin user</comment>
+        <insert tableName="users">
+            <column name="user_id" value="1"/>
+            <column name="emailaddress" value="admin@stiekema.eu"/>
+            <column name="password" value="8C6976E5B5410415BDE908BD4DEE15DFB167A9C873FC4BB8A81F6F2AB448A918"/>
+            <column name="firstname" value="Admin"/>
+            <column name="lastname" value="Admin"/>
+        </insert>
+
+        <insert tableName="user_roles">
+            <column name="emailaddress" value="admin@stiekema.eu"/>
+            <column name="rolename" value="ADMIN"/>
+        </insert>
+
+        <insert tableName="user_roles">
+            <column name="emailaddress" value="admin@stiekema.eu"/>
+            <column name="rolename" value="USER"/>
+        </insert>
+
+        <rollback>
+            <delete tableName="user_roles">
+                <where>emailaddress = 'admin@stiekema.eu'</where>
+            </delete>
+
+            <delete tableName="users">
+                <where>emailaddress = 'admin@stiekema.eu'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    
+    <changeSet id="0.1-003" author="jeroen.stiekema">
+        <comment>adding serial table for storage of primary keys</comment>
+        <createTable tableName="serial">
+            <column name="serial_id" type="varchar2(50)">
+                <constraints primaryKey="true" primaryKeyName="serial_pk"/>
+            </column>
+            <column name="serial_number" type="number(20)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0.1-004" author="jeroen.stiekema">
+        <comment>adding serial id for users table</comment>
+        <insert tableName="serial">
+            <column name="serial_id" value="users"/>
+            <column name="serial_number" value="1"/>
+        </insert>
+
+        <rollback>
+            <delete tableName="serial">
+                <where>serial_id = 'users'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
